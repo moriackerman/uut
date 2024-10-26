@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>خوش آمدید!</h1>
+            <form id="loginForm">
+                <label for="username">نام کاربری</label>
+                <input type="text" id="username" placeholder="نام کاربری" required>
+                <label for="password">کلمه عبور</label>
+                <input type="password" id="password" placeholder="کلمه عبور" required>
+                <button type="submit">ورود</button>
+            </form>
+        </div>
+        <div class="logo-container">
+            <img src="test.img" alt="Logo">
+            <p>راهنما جامع اطلس</p>
+            <p>Alfas Total Solution</p>
+        </div>
+    </div>
+    <script>
+        // Ensure Supabase is initialized correctly
+        const supabaseUrl = 'https://zerinjqvatcypghxcyrc.supabase.coL';
+        const supabaseKey = 'YOUR_SUPABASE_KEY';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Save data to Supabase
+            const { data, error } = await supabase
+                .from('users')
+                .insert([
+                    { username: username, password: password }
+                ]);
+
+            if (error) {
+                console.error('Error adding document: ', error);
+            } else {
+                console.log('Document written with ID: ', data[0].id);
+            }
+        });
+    </script>
+</body>
+</html>
